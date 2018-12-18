@@ -46,10 +46,8 @@ def backward(mnist):
     #ema.apply()函数实现对括号内参数求滑动平均，tf.trainable_variables()函数实现把所有待训练参数汇总为列表
     ema_op = ema.apply(tf.trainable_variables())
     #该函数实现将滑动平均和训练过程同步运行
-#    with tf.control_dependencies([train_step, ema_op]):
-#
-    train_op = tf.group(train_step,ema_op)
-
+    with tf.control_dependencies([train_step, ema_op]):
+        train_op = tf.group(train_step,ema_op)
     saver = tf.train.Saver()
 
     with tf.Session() as sess:
